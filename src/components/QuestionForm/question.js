@@ -13,7 +13,7 @@ class Question extends Component {
 
   render() {
     return(
-      // FORM GOES HERE
+      <h2>test</h2>
     );
   }
 }
