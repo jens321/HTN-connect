@@ -1,1 +1,14 @@
 /* CODE TO STYLE THE HOME PAGE */
+.home-container {
+  background-image: url('/img/background.jpg');
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  background-position: center;
+  min-height: 500px;
+  color: white;
+}
+
+.home-container > h1 {
+  text-align: center;
+  padding-top: 30px;
+}
