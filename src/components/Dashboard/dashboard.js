@@ -5,6 +5,8 @@ import classnames from 'classnames';
 import './dashboard.css';
 
 import Question from '../QuestionForm/question';
+import Discover from '../Discover/discover';
+
 
 class Dashboard extends Component {
   constructor(props) {
@@ -72,7 +74,7 @@ class Dashboard extends Component {
               <TabPane tabId="2">
                 <Row>
                   <Col md="12">
-                    <h4>Discover</h4>
+                    <Discover></Discover>
                   </Col>
                 </Row>
               </TabPane>
