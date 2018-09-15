@@ -1,1 +1,10 @@
 /* STYLES FOR THE DASHBOARD */
+.tab-header {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab-lead {
+  display: flex;
+  justify-content: space-around;
+}
