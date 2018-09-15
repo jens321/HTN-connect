@@ -1,0 +1,7 @@
+.signup-container {
+  color: white;
+}
+
+.signup-container > hr {
+  color: white !important; 
+}

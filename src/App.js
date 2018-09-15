@@ -6,6 +6,7 @@ import Signup from './components/Signup/signup';
 import Home from './components/Home/home';
 import Dashboard from './components/Dashboard/dashboard';
 import './App.css';
+import './scss/custom.css';
 
 class App extends Component {
   render() {

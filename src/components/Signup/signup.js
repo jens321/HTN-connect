@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
+import './signup.css';
 import { FirebaseConfig } from '../../config/keys';
 firebase.initializeApp(FirebaseConfig);
 
@@ -41,11 +44,23 @@ class Signup extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>Email: </label><input type="email" name="email" onChange={this.handleEmailChange} />
-        <label>Password: </label><input type="password" name="password" onChange={this.handlePasswordChange} />
-        <input type="submit" value="submit" />
-      </form>
+      <Row className="signup-container">
+        <Col md="3">
+          <h2>Signup</h2>
+          <hr />
+          <Form onSubmit={this.handleSubmit}>
+            <FormGroup>
+              <Label for="email">Email</Label>
+              <Input type="email" name="email" id="email" placeholder="email address" onChange={this.handleEmailChange} />
+            </FormGroup>
+            <FormGroup>
+              <Label for="password">Password</Label>
+              <Input type="password" name="password" id="password" placeholder="your password here" onChange={this.handlePasswordChange} />
+            </FormGroup>
+            <Button>Submit</Button>
+          </Form>
+        </Col>
+      </Row>
     )
   }
 }
