@@ -21,6 +21,8 @@ class PonderRoom extends Component {
             <hr id="ponder-line"/>
           </Col>
         </Row>
+
+        {/* INSERT FORM HERE */}
       </Container>
     );
   }
