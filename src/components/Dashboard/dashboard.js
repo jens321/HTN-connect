@@ -6,6 +6,7 @@ import './dashboard.css';
 
 import Question from '../QuestionForm/question';
 import Discover from '../Discover/discover';
+import Connect from '../Connect/connect';
 
 
 class Dashboard extends Component {
@@ -32,7 +33,7 @@ class Dashboard extends Component {
       <Container>
         <Row>
           <Col md='12'>
-            <h1 className='text-center' >PonderPal</h1>
+            <h1 className='text-center'><img src="/img/ponderpal_transparent.png" id="logo-dashboard" />PonderPal</h1>
           </Col>
         </Row>
         <Row>
@@ -81,7 +82,7 @@ class Dashboard extends Component {
               <TabPane tabId="3">
                 <Row>
                   <Col md="12">
-                    <h4>Connect!</h4>
+                    <Connect></Connect>
                   </Col>
                 </Row>
               </TabPane>

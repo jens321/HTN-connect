@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import { Row, Col, Button } from 'reactstrap';
 import './signup.css';
-import { FirebaseConfig } from '../../config/keys';
-firebase.initializeApp(FirebaseConfig);
+import { firebase } from '../../config/firebase';
 
 class Signup extends Component {
   constructor(props) {
