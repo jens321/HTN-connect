@@ -7,8 +7,14 @@ class Discover extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      topPick: 0,
+      suggestions: []
+    }
+
     // this.handleSubmit = this.handleSubmit.bind(this);
     this.calculateScore = this.calculateScore.bind(this);
+    this.skip = this.skip.bind(this);
   }
 
   componentDidMount() { 
@@ -24,16 +30,20 @@ class Discover extends Component {
         firebase.database().ref('/users/' + user.uid).once("value")
           .then(snapshot => {
             this.user = snapshot.val();
+            console.log("current user", this.user);
             for (let id in users) {
               if (!users.hasOwnProperty(id) || user.uid === id) continue;
               matches.push(Object.assign({}, users[id], { id: id }));
             }
-            matches.map(el => 
-              Object.assign({}, el, { distance: this.calculateScore(this.user, el) })
-            );
-
+            matches = matches.map(el => {
+              let distance = this.calculateScore(this.user, el);
+              return Object.assign({}, el, { distance: distance });
+            });
             matches.sort(this.rankUser);
             console.log(matches); 
+            this.setState({
+              suggestions: matches
+            });
           })
           .catch(error => {
             console.log(error);
@@ -42,7 +52,14 @@ class Discover extends Component {
   }
 
   rankUser(a, b) {
-    return a.distance > b.distance; 
+    return a.distance < b.distance; 
+  }
+
+  skip = (event) => {
+    event.preventDefault(); 
+    this.setState({
+      topPick: this.state.topPick + 1
+    });
   }
 
   calculateScore(currUser, otherUser) {
@@ -73,12 +90,14 @@ class Discover extends Component {
   }
 
   render() {
+
+    let topUser = this.state.suggestions[this.state.topPick] || {};
     return(
       <div>
         <Container>
           <Row className='discoverButton'>
             <Col md={{ size: 1, offset: 4 }}> 
-              <Button id="skipButton" outline color="danger">Skip</Button>{''}
+              <Button id="skipButton" outline color="danger" onClick={this.skip}>Skip</Button>
             </Col>
             <Col md={{ size: 1, offset: 1 }}>
               <Button id="connectButton" outline color="primary">Connect</Button>
@@ -88,37 +107,37 @@ class Discover extends Component {
         
           <Row className='discoverRow'>
             <Col>
-              Country: 
+              Country: {topUser.country}
             </Col>
             <Col>
-              Language:
+              Language: {topUser.language}
             </Col>
         
           </Row>
           <Row className='discoverRow'>
             <Col>
-              Region:
+              Region: {topUser.neighbourhood}
             </Col>
             <Col>
-              Age:
-            </Col>
-          </Row>
-
-          <Row className='discoverRow'>
-            <Col>
-              Political Spectrum:
-            </Col>
-            <Col>
-              Gender:
+              Age: {topUser.age}
             </Col>
           </Row>
 
           <Row className='discoverRow'>
             <Col>
-              Socioeconomic Group:
+              Political Spectrum: {topUser.politics}
             </Col>
             <Col>
-              Religion:
+              Gender: {topUser.gender}
+            </Col>
+          </Row>
+
+          <Row className='discoverRow'>
+            <Col>
+              Socioeconomic Group: {topUser.socioeconomic}
+            </Col>
+            <Col>
+              Religion: {topUser.religion}
             </Col>
           </Row>
           
