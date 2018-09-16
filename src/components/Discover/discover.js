@@ -11,29 +11,60 @@ class Discover extends Component {
     this.calculateScore = this.calculateScore.bind(this);
   }
 
-  componentDidMount() {
-    // let user = firebase.auth().currentUser;
-    // let uid = user.uid; 
+  componentDidMount() { 
 
+    // loop through entire user base
     firebase.database().ref('/users').once("value")
       .then((snapshot) => {
         let matches = [];
         let users = snapshot.val();
-        for (let id in users) {
-          if (!users.hasOwnProperty(id)) continue;
-          // if (id === uid) this.user = users[id];
+        let user = firebase.auth().currentUser;
 
-          matches.push(Object.assign({}, users[id], { id: id }));
-        }
-        matches.map(el => 
-          Object.assign({}, el, { proximity: this.calculateScore(this.user, el) })
-        );
+        // get info for current user
+        firebase.database().ref('/users/' + user.uid).once("value")
+          .then(snapshot => {
+            this.user = snapshot.val();
+            for (let id in users) {
+              if (!users.hasOwnProperty(id) || user.uid === id) continue;
+              matches.push(Object.assign({}, users[id], { id: id }));
+            }
+            matches.map(el => 
+              Object.assign({}, el, { distance: this.calculateScore(this.user, el) })
+            );
+
+            matches.sort()
+          })
+          .catch(error => {
+            console.log(error);
+          })
       })
   }
 
   calculateScore(currUser, otherUser) {
-    console.log('current: ', currUser);
-    console.log('Other: ', otherUser);
+    let distance = 0;
+    for (let key in currUser) {
+      if (!currUser.hasOwnProperty(key)) continue; 
+
+      if (key === "language" && currUser[key] !== otherUser[key]) {
+        distance = -1;
+        break;
+      }
+
+      // age
+      if (key === "age") {
+        distance += Math.abs(currUser[key] - otherUser[key])/84;
+        continue;
+      }
+
+      // politics
+      if (key === "politics") {
+        distance += Math.abs(currUser[key] - otherUser[key])/100;
+        continue;
+      }
+
+      distance += (currUser[key] === otherUser[key]) ? 0 : 1;
+    }
+    return distance; 
   }
 
   render() {
