@@ -1,0 +1,12 @@
+.profile {
+    text-align: center;
+    width: 100%;
+    font-weight: 500;
+    font-size: 2em;  
+}
+
+#textOutput {
+    width: 800px;
+    height: 350px;
+    margin: 0px auto;   
+}

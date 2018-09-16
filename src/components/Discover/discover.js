@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import './discover.css';
 
 class Discover extends Component {
   constructor(props) {
@@ -14,7 +16,10 @@ class Discover extends Component {
   render() {
     return(
       <div>
-        <h4>Discovery tab</h4>
+        <FormGroup>
+          <Label className="profile" for="textOutput">Profile</Label>
+          <Input type="textarea" name="text" id="textOutput" />
+        </FormGroup>
       </div>
     );
   }
