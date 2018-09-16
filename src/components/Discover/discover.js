@@ -32,12 +32,17 @@ class Discover extends Component {
               Object.assign({}, el, { distance: this.calculateScore(this.user, el) })
             );
 
-            matches.sort()
+            matches.sort(this.rankUser);
+            console.log(matches); 
           })
           .catch(error => {
             console.log(error);
           })
       })
+  }
+
+  rankUser(a, b) {
+    return a.distance > b.distance; 
   }
 
   calculateScore(currUser, otherUser) {
