@@ -12,3 +12,14 @@
   text-align: center;
   padding-top: 30px;
 }
+
+.logo-title {
+  position: relative;
+}
+
+#logo {
+  width: 100px;
+  position: absolute;
+  left: 35%;
+  top: 10%;
+}

@@ -8,3 +8,8 @@
   display: flex;
   justify-content: space-around;
 }
+
+#logo-dashboard {
+  width: 50px;
+  margin: 10px 3px;
+}
