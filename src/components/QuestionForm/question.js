@@ -14,8 +14,8 @@ class Question extends Component {
     country:"",
     languages:"",
     neighbourhood:"",
-    age:"", //This is supposed to be the value for the age slider
-    politics:""
+    age:"",
+    politics:"",
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
