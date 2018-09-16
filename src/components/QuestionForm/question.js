@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import Slider from 'react-rangeslider'
+import Slider from 'react-rangeslider';
 //including the default styles
-import 'react-rangeslider/lib/index.css'
+import 'react-rangeslider/lib/index.css';
 import './question.css';
 import { firebase } from '../../config/firebase';
 
@@ -11,21 +11,81 @@ class Question extends Component {
     super(props)
 
     this.state = {
-    country:"",
-    languages:"",
-    neighbourhood:"",
-    age:"", //This is supposed to be the value for the age slider
-    politics:""
+      language: "English",
+      country: "Belgium",
+      neighbourhood: "Suburbs",
+      age: 16, //This is supposed to be the value for the age slider
+      politics: 0,
+      gender: "prefer not to say",
+      socioeconomic: "Middle class",
+      religion: "Theist"
     }
-
+    
+    this.onLanguageChange = this.onLanguageChange.bind(this);
+    this.onCountryChange = this.onCountryChange.bind(this);
+    this.onRegionChange = this.onRegionChange.bind(this);
+    this.onAgeChange = this.onAgeChange.bind(this);
+    this.onPoliticsChange = this.onPoliticsChange.bind(this);
+    this.onGenderChange = this.onGenderChange.bind(this);
+    this.onSocioChange = this.onSocioChange.bind(this);
+    this.onReligionChange = this.onReligionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onNameChange = this.onNameChange.bind(this);
   }
 
-  onNameChange = (e) => {
+  onLanguageChange = (e) => {
+    console.log(e.target.value);
     this.setState({
-      name: e.target.value
+      language: e.target.value
+    });
+  }
+
+  onCountryChange = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      country: e.target.value
     })
+  }
+
+  onRegionChange = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      neighbourhood: e.target.value
+    });
+  }
+
+  onAgeChange = (age) => {
+    this.setState({
+      age: age
+    });
+    console.log(age);
+  };
+
+  onPoliticsChange = (politics) => {
+    this.setState({
+      politics: politics
+    });
+    console.log(politics);
+  }
+
+  onGenderChange = (e) => {
+    this.setState({
+      gender: e.target.value
+    });
+    console.log(e.target.value);
+  }
+
+  onSocioChange = (e) => {
+    this.setState({
+      socioeconomic: e.target.value
+    });
+    console.log(e.target.value);
+  }
+
+  onReligionChange = (e) => {
+    this.setState({
+      religion: e.target.value
+    });
+    console.log(e.target.value);
   }
 
   handleSubmit = (e) => {
@@ -33,25 +93,23 @@ class Question extends Component {
     let uid = user.uid; 
 
     firebase.database().ref('users/' + uid).set({
-      name: this.state.name
+      language: this.state.language,
+      country: this.state.country,
+      neighbourhood: this.state.neighbourhood,
+      age: this.state.age,
+      politics: this.state.politics,
+      gender: this.state.gender,
+      socioeconomic: this.state.socioeconomic,
+      religion: this.state.religion
     })
+      .then(result => {
+        console.log('cool!');
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
-
-  ageChange = value => {
-    this.setState({
-      age: value
-      
-    })
-    console.log(value)
-  };
-
-  politicsChange = value => {
-    this.setState({
-      politics: value
-    })
-    console.log(value)
-  }
   render() {
     const { age, politics } = this.state
 
@@ -65,7 +123,7 @@ class Question extends Component {
         <FormGroup>
         <Label for="languages">
           What language are you most comfortable communicating in (text AND voice)?</Label>
-          <Input type="select" name="languages" id="languages">
+          <Input type="select" name="languages" id="languages" onChange={this.onCountryChange}>
           <option>English</option>
           <option>French</option>
           <option>Flemish</option>
@@ -76,7 +134,7 @@ class Question extends Component {
         <FormGroup>
           <Label for="country">
           Which country did you mainly spend your childhood (ages 3-13) in?</Label>
-          <Input type="select" name="country" id="country">
+          <Input type="select" name="country" id="country" onChange={this.onCountryChange}>
           <option>Belgium</option>
           <option>Canada</option>
           <option>United States of America</option>
@@ -87,7 +145,7 @@ class Question extends Component {
         <FormGroup>
         <Label for="neighbourhood">
           What type of region was that in?</Label>
-          <Input type="select" name="neighbourhood" id="neighbourhood">
+          <Input type="select" name="neighbourhood" id="neighbourhood" onChange={this.onRegionChange}>
           <option>Suburbs</option>
           <option>City</option>
           <option>Pretty isolated</option>
@@ -103,7 +161,7 @@ class Question extends Component {
           max={100}
           value={age}
           onChangeStart={this.ageChangeStart}
-          onChange={this.ageChange}
+          onChange={this.onAgeChange}
           onChangeComplete={this.ageChangeComplete}
         />
         </div>
@@ -118,7 +176,7 @@ class Question extends Component {
           value={politics}
           labels={horizontalLabels}
           onChangeStart={this.politicsChangeStart}
-          onChange={this.politicsChange}
+          onChange={this.onPoliticsChange}
           onChangeComplete={this.politicsChangeComplete}
         />
         </div>
@@ -126,7 +184,7 @@ class Question extends Component {
         <FormGroup>
         <Label for="gender">
           What gender do you identify as?</Label>
-          <Input type="select" name="gender" id="gender">
+          <Input type="select" name="gender" id="gender" onChange={this.onGenderChange}>
           <option>prefer not to say</option>
           <option>female</option>
           <option>male</option>
@@ -137,7 +195,7 @@ class Question extends Component {
         <FormGroup>
         <Label for="economic">
           What socioeconomic group would you say you belong to?</Label>
-          <Input type="select" name="gender" id="gender">
+          <Input type="select" name="economic" id="economic" onChange={this.onSocioChange}>
           <option>Middle class</option>
           <option>Lower middle class</option>
           <option>Upper middle class</option>
@@ -149,13 +207,14 @@ class Question extends Component {
         <FormGroup>
         <Label for="faith">
           And lastly, what are your religious affliations?</Label>
-          <Input type="select" name="faith" id="faith">
+          <Input type="select" name="faith" id="faith" onChange={this.onReligionChange}>
           <option>Theist</option>
           <option>Atheist</option>
           <option>Agnostic</option>
           <option>Something entirely else</option>
           </Input>
         </FormGroup>
+        <Button onClick={this.handleSubmit}>Save Changes</Button>
       </Form>
     );
   }
